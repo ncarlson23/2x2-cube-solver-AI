@@ -19,5 +19,6 @@ class RubiksCube():
     face_five = 5
     face_six = 6
 
+
     
 
