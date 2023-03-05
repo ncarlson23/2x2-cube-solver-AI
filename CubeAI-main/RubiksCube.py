@@ -15,6 +15,14 @@
 #     face_five = 5
 #     face_six = 6
 
+from os import defpath
+from random import choice, randint
+from sys import argv
+from time import time
+
+# different moves
+# https://ruwix.com/online-puzzle-simulators/2x2x2-pocket-cube-simulator.php
+
 
 MOVES = {
 
@@ -152,6 +160,141 @@ class RubiksCube:
         return normState
 
     def shuffle():
+        moves = list(MOVES.keys())
+        alg = " ".join([choice(moves) for i in range(n)])
+        shuffledState = self.applyMovesStr(alg)
+        return RubiksCube(shuffledState)
+
+    
+    def randomWalk(self, n):
+        alg = []
+        moves = list(MOVES.keys())
+        while n:
+            move = choice(moves)
+            alg.append(move)
+            self.state = self.applyMove(self.state, move)
+            if self.isSolved():
+                return " ".join(alg)
+            n -= 1
+        return " ".join(alg)
+    
+
+    def validMove(self,move):
+        if self.moves:
+            lastMove = self.moves[-1]
+            if move == self.inverse(lastMove) or move == self.complement(lastMmove):
+                return False
+            elif len(self.moves) >= 2 and move == lastMove and self.moves[-2]:
+                return False
+        return True
+
+    
+    def invesrse(self, move):
+        if len(move) == 1:
+            return move + "'"
+        else:
+            return move[0]
+    
+
+    def complement(self,move):
+        complements = {"U": "D'", "U'": "D",
+                       "L'": "R", "L": "R'",
+                       "F": "B'", "F'": "B",
+                       "D'": "U", "D": "U'",
+                       "R": "L'", "R'": "L",
+                       "B'": "F", "B": "F'"}
+        return complements[move]
+
+    
+
+    def addMove(self, move):
+        self.moves.append(move)
+
+    
+
+    # Computes the sum of number of moves to put each corner in its
+    # correct position divided by 4
+    def heuristic(self, state):
+        myCorners = []
+        solvedCorners = []
+        cornerSum = 0
+        s = self.norm(state)
+        solved = Cube().state
+
+        # Corner indices
+        corners = [(10, 12, 19), (6, 11, 13),
+                   (2, 8, 17), (3, 4, 9),
+                   (14, 18, 23), (7, 15, 22),
+                   (0, 16, 21), (1, 5, 20)]
+
+        # Coordinates for the corners in a 3D plot
+        coords = [(0, 0, 0), (0, 1, 0), (1, 0, 0), (1, 1, 0),
+                  (0, 0, 1), (0, 1, 1), (1, 0, 1), (1, 1, 1)]
+
+        # Goes through the corners of the state and a solved state
+        # and tracks them in their respective lists
+        for x, y, z in corners:
+            corner = "".join(sorted(s[x] + s[y] + s[z]))
+            myCorners.append(corner)
+            corner = "".join(sorted(solved[x] + solved[y] + solved[z]))
+            solvedCorners.append(corner)
+
+        # Goes through each coordinate for the 3D plot
+        for i in range(len(coords)):
+            # Gets the corner at the current coord
+            myCorner = myCorners[i]
+            myCoords = coords[i]
+            # Gets the coords for the corner if it was actually solved
+            idx = solvedCorners.index(myCorner)
+            solvedCoords = coords[idx]
+            # If the current corner's coords are not the same as its
+            # solved coords, then compute the 3D manhattan distance
+            if myCoords != solvedCoords:
+                x = abs(solvedCoords[0] - myCoords[0])
+                y = abs(solvedCoords[1] - myCoords[1])
+                z = abs(solvedCoords[2] - myCoords[2])
+                cornerSum += x + y + z
+
+        return cornerSum / 4
+    
+
+    # ALGORITHMS:
+    # -----------------
+
+    def bfs(self):
+        if self.isSolved():
+            return self.moves, 0, 0.0
+        start = time()
+        cubes = [self]
+        opened = [self.state]
+        closed = set()
+        nodeCount = 0
+        while opened:
+            state0 = opened.pop(0)
+            cube0 = cubes.pop(0)
+            close.add(state0)
+
+            for moves in MOVES.keys():
+                if not cube0.validMove(move):
+                    continue
+                state = self.norm(self.applyMove(cube0.state, move))
+                if state not in closed and state not in opened:
+                    nodeCount += 1
+                    cube = RubiksCube(state, cube0.moves[:])
+                    cube.addMove(move)
+                    if cube.isSolved():
+                        return cube.moves, nodecount, time() - start
+                    opened.append(state)
+                    cubes.append(cube)
+
+                
+
+    
+    def ids(self):
+        return null
+    
+
+    def astar(self):
         return null
 
 
@@ -160,9 +303,13 @@ class RubiksCube:
     
 
     def main():
-        RubiksCube.print(self)
+        argc = len(argv)
+        cmd = argv[1]
+        if cmd == "print" and argc <= 2:
+            cube = RubiksCube()
+            cube.print(self)
         
-        print("Hello")
+        
     
 
     if __name__ == "__main__":
