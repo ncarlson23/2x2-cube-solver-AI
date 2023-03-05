@@ -48,7 +48,7 @@ class Cube:
         self.depth = depth
         self.f = f
 
-    # Checks if the given state is valid for a 2x2 Rubik's Cube
+    #Checks if the given state is valid for a 2x2 Rubik's Cube
     def cleanState(self, state):
         # Cleans string
         state = state.replace(" ", "")
