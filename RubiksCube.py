@@ -24,16 +24,20 @@ MOVES = {
 
 '''
 sticker indices:
+
        0  1
        2  3
 16 17  8  9   4  5  20 21
 18 19  10 11  6  7  22 23
        12 13
        14 15
+
 face colors:
+
     0
   4 2 1 5
     3
+
 moves:
 [ U , U', R , R', F , F', D , D', L , L', B , B']
 '''
@@ -48,7 +52,7 @@ class Cube:
         self.depth = depth
         self.f = f
 
-    #Checks if the given state is valid for a 2x2 Rubik's Cube
+    # Checks if the given state is valid for a 2x2 Rubik's Cube
     def cleanState(self, state):
         # Cleans string
         state = state.replace(" ", "")
@@ -365,64 +369,64 @@ class Cube:
                             break
 
 
-    def main():
-        argc = len(argv)
-        cmd = argv[1]
-        if cmd == "print" and argc <= 2:
-            cube = Cube()
-            cube.print()
-        elif cmd == "print" and argc > 2:
-            cube = Cube(argv[2])
-            cube.print()
-        elif cmd == "goal" and argc > 2:
-            cube = Cube(argv[2])
-            print(cube.isSolved())
-        elif cmd == "applyMovesStr" and argc > 3:
-            cube = Cube(argv[3])
-            newState = cube.applyMovesStr(argv[2])
-            cube = Cube(newState)
-            cube.print()
-        elif cmd == "norm" and argc > 2:
-            cube = Cube()
-            cube.state = cube.norm(argv[2])
-            cube.print()
-        elif cmd == "shuffle" and argc > 2:
-            if not argv[2].isnumeric():
-                raise ValueError("Invalid number of moves for shuffle.")
-            cube = Cube()
-            shuffledCube = cube.shuffle(int(argv[2]))
-            shuffledCube.print()
-        elif cmd == "random" and argc > 2:
-            cube = Cube()
-            cube.state = cube.applyMovesStr(argv[2])
-            print(cube.randomWalk(3))
-            cube.print()
-        elif cmd == "bfs" and argc > 2:
-            cube = Cube()
-            cube.state = cube.applyMovesStr(argv[2])
-            moves, nodeCount, time = cube.bfs()
-            print(" ".join(moves))
-            cube.printSequence(moves)
-            print(nodeCount)
-            print(round(time, 2))
-        elif cmd == "ids" and argc > 2:
-            cube = Cube()
-            cube.state = cube.applyMovesStr(argv[2])
-            moves, nodeCount, time, depth = cube.ids()
-            print("IDS found a solution at depth", depth)
-            print(" ".join(moves))
-            cube.printSequence(moves)
-            print(nodeCount)
-            print(round(time, 2))
-        elif cmd == "astar" and argc > 2:
-            cube = Cube()
-            cube.state = cube.applyMovesStr(argv[2])
-            moves, nodeCount, time = cube.astar()
-            print(" ".join(moves))
-            cube.printSequence(moves)
-            print(nodeCount)
-            print(round(time, 2))
+def main():
+    argc = len(argv)
+    cmd = argv[1]
+    if cmd == "print" and argc <= 2:
+        cube = Cube()
+        cube.print()
+    elif cmd == "print" and argc > 2:
+        cube = Cube(argv[2])
+        cube.print()
+    elif cmd == "goal" and argc > 2:
+        cube = Cube(argv[2])
+        print(cube.isSolved())
+    elif cmd == "applyMovesStr" and argc > 3:
+        cube = Cube(argv[3])
+        newState = cube.applyMovesStr(argv[2])
+        cube = Cube(newState)
+        cube.print()
+    elif cmd == "norm" and argc > 2:
+        cube = Cube()
+        cube.state = cube.norm(argv[2])
+        cube.print()
+    elif cmd == "shuffle" and argc > 2:
+        if not argv[2].isnumeric():
+            raise ValueError("Invalid number of moves for shuffle.")
+        cube = Cube()
+        shuffledCube = cube.shuffle(int(argv[2]))
+        shuffledCube.print()
+    elif cmd == "random" and argc > 2:
+        cube = Cube()
+        cube.state = cube.applyMovesStr(argv[2])
+        print(cube.randomWalk(3))
+        cube.print()
+    elif cmd == "bfs" and argc > 2:
+        cube = Cube()
+        cube.state = cube.applyMovesStr(argv[2])
+        moves, nodeCount, time = cube.bfs()
+        print(" ".join(moves))
+        cube.printSequence(moves)
+        print(nodeCount)
+        print(round(time, 2))
+    elif cmd == "ids" and argc > 2:
+        cube = Cube()
+        cube.state = cube.applyMovesStr(argv[2])
+        moves, nodeCount, time, depth = cube.ids()
+        print("IDS found a solution at depth", depth)
+        print(" ".join(moves))
+        cube.printSequence(moves)
+        print(nodeCount)
+        print(round(time, 2))
+    elif cmd == "astar" and argc > 2:
+        cube = Cube()
+        cube.state = cube.applyMovesStr(argv[2])
+        moves, nodeCount, time = cube.astar()
+        print(" ".join(moves))
+        cube.printSequence(moves)
+        print(nodeCount)
+        print(round(time, 2))
 
 
-    if __name__ == "__main__":
-        main()
+if __name__ == "__main__":
+    main()
