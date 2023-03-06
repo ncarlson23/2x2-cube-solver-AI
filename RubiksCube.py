@@ -325,7 +325,7 @@ class Cube:
             nodeCount += n
             if cube.isSolved():
                 return cube, nodeCount
-        return cube0, nodeCount
+        return cube0,nodecount
 
     # Solves the cube with breadth-first search
     def astar(self):
