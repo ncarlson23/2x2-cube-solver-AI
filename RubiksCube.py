@@ -407,8 +407,8 @@ def main():
         moves, nodeCount, time = cube.bfs()
         print(" ".join(moves))
         cube.printSequence(moves)
-        print(nodeCount)
-        print(round(time, 2))
+        print("node count is " , nodeCount)
+        print("time is ", round(time, 2))
     elif cmd == "ids" and argc > 2:
         cube = Cube()
         cube.state = cube.applyMovesStr(argv[2])
@@ -416,16 +416,16 @@ def main():
         print("IDS found a solution at depth", depth)
         print(" ".join(moves))
         cube.printSequence(moves)
-        print(nodeCount)
-        print(round(time, 2))
+        print("node count is: ", nodeCount)
+        print("time is " , round(time, 2))
     elif cmd == "astar" and argc > 2:
         cube = Cube()
         cube.state = cube.applyMovesStr(argv[2])
         moves, nodeCount, time = cube.astar()
         print(" ".join(moves))
         cube.printSequence(moves)
-        print(nodeCount)
-        print(round(time, 2))
+        print("node count is ", nodeCount)
+        print("time is " , round(time, 2))
 
 
 if __name__ == "__main__":
