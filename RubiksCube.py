@@ -69,6 +69,7 @@ class Cube:
                 raise ValueError("Invalid state. Incorrect # of colors.")
         return state
 
+# string representation of the cube 
     def __str__(self):
         s = self.state
         cubeStr = "   {}{}      \n".format(s[0], s[1])
@@ -85,6 +86,7 @@ class Cube:
         print(str(self))
 
     # Prints a sequence of moves
+    # the sequence of moves that will solve cube based on scramble pattern given 
     def printSequence(self, moves):
         s1 = str(self)
         n = 0
@@ -306,28 +308,28 @@ class Cube:
                 return cube.moves, totalNodes, time() - start, depth
             depth += 1
 
-    def dls(self, cube0, limit):
-        nodeCount = 0
-        if cube0.isSolved() or limit <= 0:
-            return cube0, nodeCount
-        for move in MOVES.keys():
-            # Skips moves that lead to unnecessary states
-            if not cube0.validMove(move):
-                continue
-            # Applies move
-            state = self.applyMove(cube0.state, move)
-            cube = Cube(state, cube0.moves[:])
-            # Tracks the moves up to this cube
-            cube.addMove(move)
-            nodeCount += 1
-            # Recursively call depth limited search until limit is 0
-            cube, n = self.dls(cube, limit - 1)
-            nodeCount += n
-            if cube.isSolved():
-                return cube, nodeCount
-        return cube0,nodeCount
+    # def dls(self, cube0, limit):
+    #     nodeCount = 0
+    #     if cube0.isSolved() or limit <= 0:
+    #         return cube0, nodeCount
+    #     for move in MOVES.keys():
+    #         # Skips moves that lead to unnecessary states
+    #         if not cube0.validMove(move):
+    #             continue
+    #         # Applies move
+    #         state = self.applyMove(cube0.state, move)
+    #         cube = Cube(state, cube0.moves[:])
+    #         # Tracks the moves up to this cube
+    #         cube.addMove(move)
+    #         nodeCount += 1
+    #         # Recursively call depth limited search until limit is 0
+    #         cube, n = self.dls(cube, limit - 1)
+    #         nodeCount += n
+    #         if cube.isSolved():
+    #             return cube, nodeCount
+    #     return cube0,nodeCount
 
-    # Solves the cube with breadth-first search
+    # Solves the cube with astar search
     def astar(self):
         if self.isSolved():
             return self.moves, 0, 0.0
